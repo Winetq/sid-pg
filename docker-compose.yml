@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+
+  generator:
+    build:
+      context: ./generator/
+      dockerfile: Dockerfile
+    container_name: generator
+    restart: on-failure
+    depends_on:
+      - rabbitmq
+    networks:
+      - net
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.8-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - net
+
+  api:
+    build:
+      context: ./api/
+      dockerfile: Dockerfile
+    container_name: api
+    restart: on-failure
+    depends_on:
+      - rabbitmq
+    networks:
+      - net
+
+networks:
+  net:
