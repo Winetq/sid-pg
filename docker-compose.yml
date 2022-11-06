@@ -24,9 +24,7 @@ services:
       - net
 
   api:
-    build:
-      context: ./api/
-      dockerfile: Dockerfile
+    image: michal299/sid-pg:api
     container_name: api
     restart: on-failure
     environment:
