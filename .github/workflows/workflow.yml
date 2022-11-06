@@ -32,3 +32,14 @@ jobs:
         directory: generator/
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
+    
+    - uses: mr-smithers-excellent/docker-build-push@v5
+      name: Build and push docker image for frontend service
+      with:
+        image: michal299/sid-pg
+        tags: frontend
+        registry: docker.io
+        dockerfile: frontend/Dockerfile
+        directory: frontend/
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
