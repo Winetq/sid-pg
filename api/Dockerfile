@@ -10,11 +10,13 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build /app/out .
+ADD docker-entry.sh /app/docker-entry.sh
+RUN chmod +x /app/docker-entry.sh
 
-ARG DB_URL="mongodb:27017"
-ARG DB_NAME="SmartParty"
+ARG DB_URL_DEFAULT="mongodb:27017"
+ARG DB_NAME_DEFAULT="SmartParty"
 
-RUN sed -i "s/db_url/$DB_URL/" ./database.json
-RUN sed -i "s/db_name/$DB_NAME/" ./database.json
+ENV DB_URL=$DB_URL_DEFAULT
+ENV DB_NAME=$DB_NAME_DEFAULT 
 
-ENTRYPOINT ["dotnet", "SmartPartyApi.dll"]
+ENTRYPOINT ["/app/docker-entry.sh" ]

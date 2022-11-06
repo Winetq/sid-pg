@@ -3,9 +3,7 @@ version: "3.8"
 services:
 
   generator:
-    build:
-      context: ./generator/
-      dockerfile: Dockerfile
+    image: michal299/sid-pg:generator
     container_name: generator
     restart: on-failure
     depends_on:
@@ -31,15 +29,16 @@ services:
       dockerfile: Dockerfile
     container_name: api
     restart: on-failure
+    environment:
+      - DB_URL=smartdb:27017
+      - DB_NAME=SmartParty
     depends_on:
       - rabbitmq
     networks:
       - net
   
   frontend:
-    build:
-      context: ./frontend/
-      dockerfile: Dockerfile
+    image: michal299/sid-pg:frontend
     container_name: frontend
     restart: on-failure
     depends_on:
