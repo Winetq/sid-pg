@@ -1,6 +1,6 @@
 {
     "DatabaseConfiguration": {
-        "ConnectionString": "mongodb://db_username:db_passwprd@db_url",
+        "ConnectionString": "mongodb://db_username:db_password@db_url",
         "DatabaseName": "db_name",
         "TemperatureCollectionName": "Temperature"
     },
