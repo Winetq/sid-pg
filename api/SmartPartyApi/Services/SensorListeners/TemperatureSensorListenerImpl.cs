@@ -27,7 +27,7 @@ public class TemperatureSensorListener : IHostedService, IDisposable {
     private void ListenerTask(CancellationToken token)
     {
 
-        (IConnection connection, IModel channel) = ConnectToBroker(10, 2, token);
+        (IConnection connection, IModel channel) = ConnectToBroker(20, 5, token);
         channel.QueueDeclare(queue: _config.GetRequiredSection("Rabbit").GetValue<String>("QueueNameTemperature"),
                 durable: false,
                 exclusive: false,
