@@ -10,7 +10,7 @@ namespace generator
             {
                 UserName = "admin",
                 Password = "admin",
-                HostName = "rabbitmq",
+                HostName = "SI_175132_rabbitmq",
                 Port = 5672
             };
 
