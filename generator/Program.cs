@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 
 namespace generator
@@ -17,10 +21,30 @@ namespace generator
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                TemperatureSensor sensor = new TemperatureSensor(channel);
-                while (true)
+                var config = new ConfigurationBuilder()
+                    .AddJsonFile($"appsettings.json", false, true)
+                    .Build();
+                List<GenericSensor> sensors = new List<GenericSensor>
                 {
-                    sensor.publish();
+                    new GenericSensor(channel, config.GetSection("TemperatureSensor"), "ts1"),
+                    new GenericSensor(channel, config.GetSection("NoiseSensor"), "ns1"),
+                    new GenericSensor(channel, config.GetSection("MusicVolumeSensor"), "mvs1"),
+                    new GenericSensor(channel, config.GetSection("PeopleCounterSensor"), "pcs1")
+                };
+                List<Thread> threads = new List<Thread>();
+
+                foreach (var sensor in sensors)
+                {
+                    Console.WriteLine(sensor);
+                    sensor.Started = true;
+                    var thread = sensor.publishingThread();
+                    threads.Add(thread);
+                    thread.Start();
+                }
+
+                foreach (var thread in threads)
+                {
+                    thread.Join();
                 }
             }
         }
