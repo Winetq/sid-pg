@@ -18,7 +18,7 @@ public class MusicVolumeModel : PageModel
 
     public void OnGet()
     {
-        var response = _client.GetAsync("http://api/api/1/musicVolumeSensor").Result;
+        var response = _client.GetAsync("http://SI_175132_api/api/1/musicVolumeSensor").Result;
         var body = response.Content.ReadFromJsonAsync<List<MusicVolumeRecordModel>>().Result;
         if (body != null) Measurements = body;
     }
