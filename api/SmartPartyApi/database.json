@@ -3,6 +3,7 @@
         "ConnectionString": "mongodb://db_username:db_password@db_url",
         "DatabaseName": "db_name",
         "TemperatureCollectionName": "Temperature",
-        "PoepleCounterCollectionName": "PeopleCounter"
-    },
+        "PoepleCounterCollectionName": "PeopleCounter",
+        "NoiseCollectionName": "Noise"
+    }
 }

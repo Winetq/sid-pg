@@ -1,0 +1,36 @@
+@page
+@model NoisesModel
+@{
+    ViewData["Title"] = "Noises measurements";
+}
+
+<div class="text-center">
+    <h1>@ViewData["Title"]</h1>
+    <p>Use this page to display noises measurements</p>
+
+    <div>
+        <h2>All measurements</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Sensor ID</th>
+                <th>Date</th>
+                <th>Value [dB]</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var measurement in Model.Measurements.OrderByDescending(x => x.MeasuredAt))
+            {
+                <tr>
+                    <td>@measurement.SensorId</td>
+                    <td>@measurement.MeasuredAt</td>
+                    <td>@measurement.Value</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+    </div>
+</div>

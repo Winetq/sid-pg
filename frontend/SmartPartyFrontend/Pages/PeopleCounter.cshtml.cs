@@ -18,7 +18,7 @@ public class PeopleCounterModel : PageModel
 
     public void OnGet()
     {
-        var response = _client.GetAsync("http://SI_175132_api/api/1/peopleCounter").Result;
+        var response = _client.GetAsync("http://api/api/1/peopleCounter").Result;
         var body = response.Content.ReadFromJsonAsync<List<PeopleCounterRecord>>().Result;
         if (body != null) Measurements = body;
     }
