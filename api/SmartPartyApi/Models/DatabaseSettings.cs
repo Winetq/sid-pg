@@ -8,7 +8,9 @@ public class DatabaseSettings
 
     public string TemperatureCollectionName { get; set; } = null!;
 
-    public string PoepleCounterCollectionName {get; set; } = null!;
+    public string PeopleCounterCollectionName { get; set; } = null!;
 
-    public string NoiseCollectionName {get; set; } = null!;
+    public string NoiseCollectionName { get; set; } = null!;
+
+    public string MusicVolumeCollectionName { get; set; } = null!;
 }

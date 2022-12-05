@@ -11,7 +11,7 @@ public class PeopleCounterSensorRepository {
     {
         var mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
         var mongoDb = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
-        _peopleCounterCollection = mongoDb.GetCollection<PeopleCounterRecord>(databaseSettings.Value.PoepleCounterCollectionName);
+        _peopleCounterCollection = mongoDb.GetCollection<PeopleCounterRecord>(databaseSettings.Value.PeopleCounterCollectionName);
     }
 
     public async Task<List<PeopleCounterRecord>> GetAsync() =>
