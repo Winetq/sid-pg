@@ -3,23 +3,23 @@ using SmartPartyFrontend.Models;
 
 namespace SmartPartyFrontend.Pages;
 
-public class PeopleCounterModel : PageModel
+public class MusicVolumeModel : PageModel
 {
     private readonly HttpClient _client = new();
-    private readonly ILogger<PeopleCounterModel> _logger;
+    private readonly ILogger<MusicVolumeModel> _logger;
 
-    public PeopleCounterModel(ILogger<PeopleCounterModel> logger)
+    public MusicVolumeModel(ILogger<MusicVolumeModel> logger)
     {
         _logger = logger;
-        Measurements = new List<PeopleCounterRecord>();
+        Measurements = new List<MusicVolumeRecordModel>();
     }
 
-    public List<PeopleCounterRecord> Measurements { get; set; }
+    public List<MusicVolumeRecordModel> Measurements { get; set; }
 
     public void OnGet()
     {
-        var response = _client.GetAsync("http://SI_175132_api/api/1/peopleCounter").Result;
-        var body = response.Content.ReadFromJsonAsync<List<PeopleCounterRecord>>().Result;
+        var response = _client.GetAsync("http://SI_175132_api/api/1/musicVolumeSensor").Result;
+        var body = response.Content.ReadFromJsonAsync<List<MusicVolumeRecordModel>>().Result;
         if (body != null) Measurements = body;
     }
 
@@ -32,7 +32,7 @@ public class PeopleCounterModel : PageModel
             {
                 Label = t.Key,
                 XLabels = t.ToList().Select(m => m.MeasuredAt).ToList(),
-                YValues = t.ToList().Select(m => m.NumberOfPeople).ToList()
+                YValues = t.ToList().Select(m => m.MusicVolume).ToList()
             }).ToList();
         return datasets;
     }

@@ -6,7 +6,7 @@ namespace SmartPartyApi.Controllers;
 
 [ApiController]
 [Route("api/1/[controller]")]
-public class TemperatureSensorController : ControllerBase{
+public class TemperatureSensorController : ControllerBase {
 
     private readonly TemperatureSensorService _temperatureSensorService;
     private readonly ILogger<TemperatureSensorController> _logger;

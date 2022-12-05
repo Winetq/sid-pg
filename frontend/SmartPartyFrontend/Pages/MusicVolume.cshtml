@@ -1,12 +1,12 @@
 @page
-@model PeopleCounterModel
+@model MusicVolumeModel
 @{
-    ViewData["Title"] = "People counter";
+    ViewData["Title"] = "Music volume measurements";
 }
 
 <div class="text-center">
     <h1>@ViewData["Title"]</h1>
-    <p>Use this page to display people counters</p>
+    <p>Use this page to display music volume measurements</p>
 
     <div>
         <h2>All measurements</h2>
@@ -15,7 +15,7 @@
             <tr>
                 <th>Sensor ID</th>
                 <th>Date</th>
-                <th>Number of people</th>
+                <th>Music volume [dB]</th>
             </tr>
             </thead>
             <tbody>
@@ -24,7 +24,7 @@
                 <tr>
                     <td>@measurement.SensorId</td>
                     <td>@measurement.MeasuredAt</td>
-                    <td>@measurement.NumberOfPeople</td>
+                    <td>@measurement.MusicVolume</td>
                 </tr>
             }
             </tbody>
@@ -32,7 +32,7 @@
     </div>
 
     <div>
-        <div id="peopleCounterChart">
+        <div id="musicVolumeChart">
         </div>
     </div>
 </div>
@@ -50,7 +50,7 @@
         traces.push(trace);
     }
     var layout = {
-      title:'People counter measurements from people counter sensors'
+      title:'Music volume measurements from music volume sensors'
     };
-    Plotly.newPlot('peopleCounterChart', traces, layout);
+    Plotly.newPlot('musicVolumeChart', traces, layout);
 </script>
