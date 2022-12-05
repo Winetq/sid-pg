@@ -32,5 +32,25 @@
     </div>
 
     <div>
+        <div id="peopleCounterChart">
+        </div>
     </div>
 </div>
+
+<script src='https://cdn.plot.ly/plotly-2.16.1.min.js'></script>
+<script>
+    let traces = [];
+    for (const group of @Html.Raw(Json.Serialize(@Model.GetValues()))) {
+        let trace = {
+            x: group.xLabels,
+            y: group.yValues,
+            type: 'lines+markers',
+            name: group.label
+        };
+        traces.push(trace);
+    }
+    var layout = {
+      title:'People counter measurements from people counter sensors'
+    };
+    Plotly.newPlot('peopleCounterChart', traces, layout);
+</script>

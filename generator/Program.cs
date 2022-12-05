@@ -27,9 +27,15 @@ namespace generator
                 List<GenericSensor> sensors = new List<GenericSensor>
                 {
                     new GenericSensor(channel, config.GetSection("TemperatureSensor"), "ts1"),
+                    new GenericSensor(channel, config.GetSection("TemperatureSensor"), "ts2"),
                     new GenericSensor(channel, config.GetSection("NoiseSensor"), "ns1"),
+                    new GenericSensor(channel, config.GetSection("NoiseSensor"), "ns2"),
+                    new GenericSensor(channel, config.GetSection("NoiseSensor"), "ns3"),
                     new GenericSensor(channel, config.GetSection("MusicVolumeSensor"), "mvs1"),
-                    new GenericSensor(channel, config.GetSection("PeopleCounterSensor"), "pcs1")
+                    new GenericSensor(channel, config.GetSection("MusicVolumeSensor"), "mvs2"),
+                    new GenericSensor(channel, config.GetSection("PeopleCounterSensor"), "pcs1"),
+                    new GenericSensor(channel, config.GetSection("PeopleCounterSensor"), "pcs2"),
+                    new GenericSensor(channel, config.GetSection("PeopleCounterSensor"), "pcs3")
                 };
                 List<Thread> threads = new List<Thread>();
 

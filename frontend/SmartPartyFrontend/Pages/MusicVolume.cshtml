@@ -32,5 +32,25 @@
     </div>
 
     <div>
+        <div id="musicVolumeChart">
+        </div>
     </div>
 </div>
+
+<script src='https://cdn.plot.ly/plotly-2.16.1.min.js'></script>
+<script>
+    let traces = [];
+    for (const group of @Html.Raw(Json.Serialize(@Model.GetValues()))) {
+        let trace = {
+            x: group.xLabels,
+            y: group.yValues,
+            type: 'lines+markers',
+            name: group.label
+        };
+        traces.push(trace);
+    }
+    var layout = {
+      title:'Music volume measurements from music volume sensors'
+    };
+    Plotly.newPlot('musicVolumeChart', traces, layout);
+</script>
