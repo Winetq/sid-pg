@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SmartPartyFrontend.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SmartPartyFrontend.Pages;
 
@@ -22,6 +23,24 @@ public class PeopleCounterModel : PageModel
         var body = response.Content.ReadFromJsonAsync<List<PeopleCounterRecord>>().Result;
         if (body != null) Measurements = body;
     }
+
+    public async Task<IActionResult> OnPostAsync() 
+    {
+        var response = _client.GetAsync("http://SI_175132_api/api/1/peopleCounter").Result;
+        var body = response.Content.ReadFromJsonAsync<List<PeopleCounterRecord>>().Result;
+        var jsonstr = System.Text.Json.JsonSerializer.Serialize(body);
+        byte[] byteArray = System.Text.ASCIIEncoding.ASCII.GetBytes(jsonstr);
+        return File(byteArray, "application/force-download", "peopleCounterRecords.json");
+    }
+
+    // public async Task<IActionResult> OnPostAsyncDownloadCsv() 
+    // {
+    //     var response = _client.GetAsync("http://api/api/1/peopleCounter").Result;
+    //     var body = response.Content.ReadFromJsonAsync<List<PeopleCounterRecord>>().Result;
+    //     var jsonstr = System.Text.Json.JsonSerializer.Serialize(Measurements);
+    //     byte[] byteArray = System.Text.ASCIIEncoding.ASCII.GetBytes(jsonstr);
+    //     return File(byteArray, "application/force-download", "peopleCounterRecords.json");
+    // }
 
     public List<ChartDataset> GetValues()
     {
