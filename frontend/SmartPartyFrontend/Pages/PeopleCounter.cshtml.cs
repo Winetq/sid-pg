@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SmartPartyFrontend.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 namespace SmartPartyFrontend.Pages;
 
@@ -24,7 +25,7 @@ public class PeopleCounterModel : PageModel
         if (body != null) Measurements = body;
     }
 
-    public async Task<IActionResult> OnPostAsync() 
+    public async Task<IActionResult> OnPostDownloadJson() 
     {
         var response = _client.GetAsync("http://SI_175132_api/api/1/peopleCounter").Result;
         var body = response.Content.ReadFromJsonAsync<List<PeopleCounterRecord>>().Result;
@@ -33,14 +34,29 @@ public class PeopleCounterModel : PageModel
         return File(byteArray, "application/force-download", "peopleCounterRecords.json");
     }
 
-    // public async Task<IActionResult> OnPostAsyncDownloadCsv() 
-    // {
-    //     var response = _client.GetAsync("http://api/api/1/peopleCounter").Result;
-    //     var body = response.Content.ReadFromJsonAsync<List<PeopleCounterRecord>>().Result;
-    //     var jsonstr = System.Text.Json.JsonSerializer.Serialize(Measurements);
-    //     byte[] byteArray = System.Text.ASCIIEncoding.ASCII.GetBytes(jsonstr);
-    //     return File(byteArray, "application/force-download", "peopleCounterRecords.json");
-    // }
+    public async Task<IActionResult> OnPostDownloadCsv() 
+    {
+        var response = _client.GetAsync("http://SI_175132_api/api/1/peopleCounter").Result;
+        var body = response.Content.ReadFromJsonAsync<List<PeopleCounterRecord>>().Result;
+
+        StringBuilder csv = new StringBuilder();
+
+        string[] columnNames = new string[] { "Id", "NumberOfPeople", "MeasuredAt", "SensorId" };
+        csv.AppendLine(string.Join(",", columnNames));
+
+        foreach (PeopleCounterRecord record in body) 
+        {
+            csv.AppendLine(string.Join(",", new string[] 
+            { 
+                record.Id, 
+                record.NumberOfPeople.ToString(), 
+                record.MeasuredAt.ToString(), 
+                record.SensorId 
+            }));
+        }
+
+        return File(Encoding.ASCII.GetBytes(csv.ToString()), "application/force-download", "peopleCounterRecords.csv");
+    }
 
     public List<ChartDataset> GetValues()
     {
