@@ -33,8 +33,8 @@ namespace generator
             min = config.GetValue<Int32>("Min");
             max = config.GetValue<Int32>("Max");
             int numerator = (int)TimeSpan.FromMinutes(1).TotalMilliseconds;
-            int divisor = config.GetValue<Int32>("HowManyDataPerMinute");
-            timeout = numerator / divisor;
+            double divisor = config.GetValue<double>("HowManyDataPerMinute");
+            timeout = Convert.ToInt32(numerator / divisor);
             queueName = config.GetValue<String>("QueueName");
         }
 
@@ -50,6 +50,7 @@ namespace generator
                         SensorId = SensorId
                     };
                     var jsonMessage = JsonSerializer.Serialize(message);
+                    Thread.Sleep((int)TimeSpan.FromSeconds(random.Next(10, 30)).TotalMilliseconds);
                     Thread.Sleep(timeout);
                     Console.WriteLine($"{queueName.ToUpper()}: {message}");
                     channel.BasicPublish("", queueName, null, Encoding.UTF8.GetBytes(jsonMessage));

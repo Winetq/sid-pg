@@ -28,14 +28,34 @@ namespace generator
                 {
                     new GenericSensor(channel, config.GetSection("TemperatureSensor"), "ts1"),
                     new GenericSensor(channel, config.GetSection("TemperatureSensor"), "ts2"),
+                    new GenericSensor(channel, config.GetSection("TemperatureSensor"), "ts3"),
+                    new GenericSensor(channel, config.GetSection("TemperatureSensor"), "ts4"),
+                    new GenericSensor(channel, config.GetSection("TemperatureSensor"), "ts5"),
+                    new GenericSensor(channel, config.GetSection("TemperatureSensor"), "ts6"),
+                    new GenericSensor(channel, config.GetSection("TemperatureSensor"), "ts7"),
+                    new GenericSensor(channel, config.GetSection("TemperatureSensor"), "ts8"),
+                    new GenericSensor(channel, config.GetSection("TemperatureSensor"), "ts9"),
+                    new GenericSensor(channel, config.GetSection("TemperatureSensor"), "ts10"),
                     new GenericSensor(channel, config.GetSection("NoiseSensor"), "ns1"),
                     new GenericSensor(channel, config.GetSection("NoiseSensor"), "ns2"),
                     new GenericSensor(channel, config.GetSection("NoiseSensor"), "ns3"),
+                    new GenericSensor(channel, config.GetSection("NoiseSensor"), "ns4"),
+                    new GenericSensor(channel, config.GetSection("NoiseSensor"), "ns5"),
+                    new GenericSensor(channel, config.GetSection("NoiseSensor"), "ns6"),
                     new GenericSensor(channel, config.GetSection("MusicVolumeSensor"), "mvs1"),
                     new GenericSensor(channel, config.GetSection("MusicVolumeSensor"), "mvs2"),
+                    new GenericSensor(channel, config.GetSection("MusicVolumeSensor"), "mvs3"),
+                    new GenericSensor(channel, config.GetSection("MusicVolumeSensor"), "mvs4"),
+                    new GenericSensor(channel, config.GetSection("MusicVolumeSensor"), "mvs5"),
+                    new GenericSensor(channel, config.GetSection("MusicVolumeSensor"), "mvs6"),
                     new GenericSensor(channel, config.GetSection("PeopleCounterSensor"), "pcs1"),
                     new GenericSensor(channel, config.GetSection("PeopleCounterSensor"), "pcs2"),
-                    new GenericSensor(channel, config.GetSection("PeopleCounterSensor"), "pcs3")
+                    new GenericSensor(channel, config.GetSection("PeopleCounterSensor"), "pcs3"),
+                    new GenericSensor(channel, config.GetSection("PeopleCounterSensor"), "pcs4"),
+                    new GenericSensor(channel, config.GetSection("PeopleCounterSensor"), "pcs5"),
+                    new GenericSensor(channel, config.GetSection("PeopleCounterSensor"), "pcs6"),
+                    new GenericSensor(channel, config.GetSection("PeopleCounterSensor"), "pcs7"),
+                    new GenericSensor(channel, config.GetSection("PeopleCounterSensor"), "pcs8")
                 };
                 List<Thread> threads = new List<Thread>();
 
