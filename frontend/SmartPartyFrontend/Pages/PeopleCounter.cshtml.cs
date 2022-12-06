@@ -29,10 +29,13 @@ public class PeopleCounterModel : PageModel
     {
         var response = _client.GetAsync("http://SI_175132_api/api/1/peopleCounter").Result;
         var peopleCounterRecords = response.Content.ReadFromJsonAsync<List<PeopleCounterRecord>>().Result;
-        var startDateTime = Convert.ToDateTime(Request.Form["startDateTime"]);
-        var endDateTime = Convert.ToDateTime(Request.Form["endDateTime"]);
-        var filteredPeopleCounterRecords = peopleCounterRecords.FindAll(record => record.MeasuredAt >= startDateTime && record.MeasuredAt <= endDateTime);
-        var jsonstr = System.Text.Json.JsonSerializer.Serialize(filteredPeopleCounterRecords);
+        if (!string.IsNullOrEmpty(Request.Form["startDateTime"]) && !string.IsNullOrEmpty(Request.Form["endDateTime"])) 
+        {
+            var startDateTime = Convert.ToDateTime(Request.Form["startDateTime"]);
+            var endDateTime = Convert.ToDateTime(Request.Form["endDateTime"]);
+            peopleCounterRecords = peopleCounterRecords.FindAll(record => record.MeasuredAt >= startDateTime && record.MeasuredAt <= endDateTime);
+        }
+        var jsonstr = System.Text.Json.JsonSerializer.Serialize(peopleCounterRecords);
         byte[] byteArray = System.Text.ASCIIEncoding.ASCII.GetBytes(jsonstr);
         return File(byteArray, "application/force-download", "peopleCounterRecords.json");
     }
@@ -41,16 +44,19 @@ public class PeopleCounterModel : PageModel
     {
         var response = _client.GetAsync("http://SI_175132_api/api/1/peopleCounter").Result;
         var peopleCounterRecords = response.Content.ReadFromJsonAsync<List<PeopleCounterRecord>>().Result;
-        var startDateTime = Convert.ToDateTime(Request.Form["startDateTime"]);
-        var endDateTime = Convert.ToDateTime(Request.Form["endDateTime"]);
-        var filteredPeopleCounterRecords = peopleCounterRecords.FindAll(record => record.MeasuredAt >= startDateTime && record.MeasuredAt <= endDateTime);
+        if (!string.IsNullOrEmpty(Request.Form["startDateTime"]) && !string.IsNullOrEmpty(Request.Form["endDateTime"])) 
+        {
+            var startDateTime = Convert.ToDateTime(Request.Form["startDateTime"]);
+            var endDateTime = Convert.ToDateTime(Request.Form["endDateTime"]);
+            peopleCounterRecords = peopleCounterRecords.FindAll(record => record.MeasuredAt >= startDateTime && record.MeasuredAt <= endDateTime);
+        }
 
         StringBuilder csv = new StringBuilder();
 
         string[] columnNames = new string[] { "Id", "NumberOfPeople", "MeasuredAt", "SensorId" };
         csv.AppendLine(string.Join(",", columnNames));
 
-        foreach (PeopleCounterRecord record in filteredPeopleCounterRecords) 
+        foreach (PeopleCounterRecord record in peopleCounterRecords) 
         {
             csv.AppendLine(string.Join(",", new string[] { 
                 record.Id,
