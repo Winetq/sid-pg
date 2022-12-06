@@ -1,6 +1,8 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SmartPartyFrontend.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 namespace SmartPartyFrontend.Pages;
 
@@ -23,6 +25,49 @@ public class TemperaturesModel : PageModel
         var response = _client.GetAsync("http://SI_175132_api/api/1/TemperatureSensor").Result;
         var body = response.Content.ReadFromJsonAsync<List<TemperatureRecordModel>>().Result;
         if (body != null) Measurements = body;
+    }
+
+    public async Task<IActionResult> OnPostDownloadJson() 
+    {
+        var response = _client.GetAsync("http://SI_175132_api/api/1/TemperatureSensor").Result;
+        var temperatureRecords = response.Content.ReadFromJsonAsync<List<TemperatureRecordModel>>().Result;
+        if (!string.IsNullOrEmpty(Request.Form["startDateTime"]) && !string.IsNullOrEmpty(Request.Form["endDateTime"])) 
+        {
+            var startDateTime = Convert.ToDateTime(Request.Form["startDateTime"]);
+            var endDateTime = Convert.ToDateTime(Request.Form["endDateTime"]);
+            temperatureRecords = temperatureRecords.FindAll(record => record.MeasuredAt >= startDateTime && record.MeasuredAt <= endDateTime);
+        }
+        var jsonstr = System.Text.Json.JsonSerializer.Serialize(temperatureRecords);
+        byte[] byteArray = System.Text.ASCIIEncoding.ASCII.GetBytes(jsonstr);
+        return File(byteArray, "application/force-download", "temperatureRecords.json");
+    }
+
+    public async Task<IActionResult> OnPostDownloadCsv() 
+    {
+        var response = _client.GetAsync("http://SI_175132_api/api/1/TemperatureSensor").Result;
+        var temperatureRecords = response.Content.ReadFromJsonAsync<List<TemperatureRecordModel>>().Result;
+        if (!string.IsNullOrEmpty(Request.Form["startDateTime"]) && !string.IsNullOrEmpty(Request.Form["endDateTime"])) 
+        {
+            var startDateTime = Convert.ToDateTime(Request.Form["startDateTime"]);
+            var endDateTime = Convert.ToDateTime(Request.Form["endDateTime"]);
+            temperatureRecords = temperatureRecords.FindAll(record => record.MeasuredAt >= startDateTime && record.MeasuredAt <= endDateTime);
+        }
+
+        StringBuilder csv = new StringBuilder();
+
+        string[] columnNames = new string[] { "Id", "Value", "MeasuredAt", "SensorId" };
+        csv.AppendLine(string.Join(",", columnNames));
+
+        foreach (TemperatureRecordModel record in temperatureRecords) 
+        {
+            csv.AppendLine(string.Join(",", new string[] { 
+                record.Id,
+                record.Value.ToString(),
+                record.MeasuredAt.ToString(),
+                record.SensorId }));
+        }
+
+        return File(Encoding.ASCII.GetBytes(csv.ToString()), "application/force-download", "temperatureRecords.csv");
     }
 
     public List<ChartDataset> GetValues()
