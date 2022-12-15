@@ -20,14 +20,14 @@ public class MusicVolumeModel : PageModel
 
     public void OnGet()
     {
-        var response = _client.GetAsync("http://SI_175132_api/api/1/musicVolumeSensor").Result;
+        var response = _client.GetAsync("http://api/api/1/musicVolumeSensor").Result;
         var body = response.Content.ReadFromJsonAsync<List<MusicVolumeRecordModel>>().Result;
         if (body != null) Measurements = body;
     }
 
     public async Task<IActionResult> OnPostDownloadJson() 
     {
-        var response = _client.GetAsync("http://SI_175132_api/api/1/musicVolumeSensor").Result;
+        var response = _client.GetAsync("http://api/api/1/musicVolumeSensor").Result;
         var musicVolumeRecords = response.Content.ReadFromJsonAsync<List<MusicVolumeRecordModel>>().Result;
         if (!string.IsNullOrEmpty(Request.Form["startDateTime"]) && !string.IsNullOrEmpty(Request.Form["endDateTime"])) 
         {
@@ -42,7 +42,7 @@ public class MusicVolumeModel : PageModel
 
     public async Task<IActionResult> OnPostDownloadCsv() 
     {
-        var response = _client.GetAsync("http://SI_175132_api/api/1/musicVolumeSensor").Result;
+        var response = _client.GetAsync("http://api/api/1/musicVolumeSensor").Result;
         var musicVolumeRecords = response.Content.ReadFromJsonAsync<List<MusicVolumeRecordModel>>().Result;
         if (!string.IsNullOrEmpty(Request.Form["startDateTime"]) && !string.IsNullOrEmpty(Request.Form["endDateTime"])) 
         {

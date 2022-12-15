@@ -22,14 +22,14 @@ public class TemperaturesModel : PageModel
 
     public void OnGet()
     {
-        var response = _client.GetAsync("http://SI_175132_api/api/1/TemperatureSensor").Result;
+        var response = _client.GetAsync("http://api/api/1/TemperatureSensor").Result;
         var body = response.Content.ReadFromJsonAsync<List<TemperatureRecordModel>>().Result;
         if (body != null) Measurements = body;
     }
 
     public async Task<IActionResult> OnPostDownloadJson() 
     {
-        var response = _client.GetAsync("http://SI_175132_api/api/1/TemperatureSensor").Result;
+        var response = _client.GetAsync("http://api/api/1/TemperatureSensor").Result;
         var temperatureRecords = response.Content.ReadFromJsonAsync<List<TemperatureRecordModel>>().Result;
         if (!string.IsNullOrEmpty(Request.Form["startDateTime"]) && !string.IsNullOrEmpty(Request.Form["endDateTime"])) 
         {
@@ -44,7 +44,7 @@ public class TemperaturesModel : PageModel
 
     public async Task<IActionResult> OnPostDownloadCsv() 
     {
-        var response = _client.GetAsync("http://SI_175132_api/api/1/TemperatureSensor").Result;
+        var response = _client.GetAsync("http://api/api/1/TemperatureSensor").Result;
         var temperatureRecords = response.Content.ReadFromJsonAsync<List<TemperatureRecordModel>>().Result;
         if (!string.IsNullOrEmpty(Request.Form["startDateTime"]) && !string.IsNullOrEmpty(Request.Form["endDateTime"])) 
         {
